@@ -1,8 +1,8 @@
 package com.spring_mvc_springbootweb.springbootweb.controllers;
 
 import com.spring_mvc_springbootweb.springbootweb.dto.EmployeeDTO;
-import com.spring_mvc_springbootweb.springbootweb.entities.EmployeeEntity;
 import com.spring_mvc_springbootweb.springbootweb.services.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -79,14 +79,30 @@ public class EmployeeController {
         return employeeService.getEmployeeById(id);
     }
 
-    @GetMapping(path = "")
+    public String postData(@RequestBody(required = true) String data) {
+        return "Post Data";
+    }
+
+    @GetMapping(path = "/")
     public List<EmployeeDTO> getAllEmployees(@RequestParam(name = "age", defaultValue = "24", required = false) Integer inputAge,
                                              @RequestParam(required = false) Integer page_sort) {
         return employeeService.getAllEmployees();
     }
 
     @PostMapping(path = "/create")
-    public EmployeeDTO createEmployees(@RequestBody EmployeeDTO inputEmployee) {
+    public EmployeeDTO createEmployees(@RequestBody @Valid EmployeeDTO inputEmployee) {
         return employeeService.createNewEmployees(inputEmployee);
+    }
+
+//    All data update that'swhy use the put mapping
+    @PutMapping(path = "{employeeId}")
+    public EmployeeDTO updateEmployeeData(@RequestBody EmployeeDTO employeeDTO,
+                                          @PathVariable Long employeeId) {
+        return employeeService.updateEmployeeData(employeeId, employeeDTO);
+    }
+
+    @DeleteMapping
+    public String deleteEmployee(@PathVariable Long employeeId) {
+        return employeeService.deleteEmployee(employeeId);
     }
 }

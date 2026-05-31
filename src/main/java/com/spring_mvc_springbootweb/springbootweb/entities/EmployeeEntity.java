@@ -22,7 +22,11 @@ public class EmployeeEntity {
     private String name;
     private String email;
     private Integer age;
+
+    @Column(name = "date_of_joining")
     private LocalDate dateOfJoining;
+
+    @Column(name = "is_active")
     private Boolean isActive;
 
     @Version
